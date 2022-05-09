@@ -5,12 +5,12 @@ export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 
-//세팅?
+//세팅
 export const setProducts = () => {
   return async dispatch => {
     try {
       const response = await fetch(
-        `https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/products.json`,
+        'https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/products.json',
         //method의 속성 중 GET은 default값이라 생략 가능. 또한 GET은 header를 설정할 필요 X.
         //즉, GET으로 사용 시 두번 째 인자를 전달할 필요가 X
       );
@@ -32,11 +32,13 @@ export const setProducts = () => {
           ),
         );
       }
+      console.log(loadedProducts);
       dispatch({
         type: SET_PRODUCTS,
         products: loadedProducts,
       });
     } catch (err) {
+      console.log('에러 발생');
       throw err;
     }
   };

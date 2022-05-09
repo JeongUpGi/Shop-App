@@ -29,13 +29,14 @@ const ProductsOverViewScreen = props => {
 
   const loadProducts = useCallback(async () => {
     if (isFocused) {
-      console.log('LOAD PRODUCTS');
-      setIsRefreshing(true);
       setError(null);
+      setIsRefreshing(true);
       try {
         await dispatch(productsActions.setProducts());
+        console.log('LOAD PRODUCTS');
       } catch (err) {
         setError(err.message);
+        console.log(err.message);
       }
       setIsRefreshing(false);
     }

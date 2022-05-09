@@ -8,13 +8,15 @@ import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
 import EditProductScreen from '../screens/user/EditProductScreen';
+import AuthScreen from '../screens/user/AuthScreen';
 
 const activeTintColor = '#885FFF';
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
+const isLogged = false;
 
-const ProductsNavigator = props => {
-  return (
+const Products_AuthNavigator = props => {
+  return isLogged ? (
     <Stack.Navigator
       initialRouteName="productsOverView"
       screenOptions={{headerShown: false}}>
@@ -25,6 +27,12 @@ const ProductsNavigator = props => {
       <Stack.Screen name="productDetail" component={ProductDetailScreen} />
       <Stack.Screen name="userProducts" component={UserProductsScreen} />
       <Stack.Screen name="cart" component={CartScreen} />
+    </Stack.Navigator>
+  ) : (
+    <Stack.Navigator
+      initialRouteName="auth"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="auth" component={AuthScreen} />
     </Stack.Navigator>
   );
 };
@@ -58,7 +66,7 @@ export const ShopNavigator = props => {
         headerShown: false,
         drawerActiveTintColor: activeTintColor,
       }}>
-      <Drawer.Screen name="Products" component={ProductsNavigator} />
+      <Drawer.Screen name="Products" component={Products_AuthNavigator} />
       <Drawer.Screen name="Orders" component={OrdersNavigator} />
       <Drawer.Screen name="Admin" component={AdminNavigator} />
     </Drawer.Navigator>
