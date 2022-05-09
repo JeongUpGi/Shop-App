@@ -156,7 +156,7 @@ const EditProductScreen = props => {
             required
             onInputChange={inputChangeHandler}
             initialValue={editedProduct ? editedProduct.title : ''}
-            initiallyValid={editedProduct ? true : false}
+            initiallyValid={editedProduct ? true : true}
           />
           <InputForm
             id="imageUrl"
@@ -166,7 +166,7 @@ const EditProductScreen = props => {
             required
             onInputChange={inputChangeHandler}
             initialValue={editedProduct ? editedProduct.imageUrl : ''}
-            initiallyValid={editedProduct ? true : false}
+            initiallyValid={editedProduct ? true : true}
           />
           <InputForm
             id="price"
@@ -177,7 +177,7 @@ const EditProductScreen = props => {
             min={0.1}
             onInputChange={inputChangeHandler}
             initialValue={editedProduct ? editedProduct.price.toString() : ''}
-            initiallyValid={editedProduct ? true : false}
+            initiallyValid={editedProduct ? true : true}
           />
           <InputForm
             id="description"
@@ -188,7 +188,7 @@ const EditProductScreen = props => {
             required
             onInputChange={inputChangeHandler}
             initialValue={editedProduct ? editedProduct.description : ''}
-            initiallyValid={editedProduct ? true : false}
+            initiallyValid={editedProduct ? true : true}
           />
         </FormContainer>
       </ScrollContainer>
