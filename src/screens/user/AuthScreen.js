@@ -1,14 +1,106 @@
-import React from 'react';
-import {KeyboardAvoidingView, ScrollView} from 'react-native';
+import React, {useState, useEffect, useReducer, useCallback} from 'react';
+import {
+  View,
+  KeyboardAvoidingView,
+  ScrollView,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
+import {useDispatch} from 'react-redux';
+
+import * as authActions from '../../store/actions/Auth';
+
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
-
 import HeaderBar from '../../components/Global/HeaderBar';
 import InputForm from '../../components/UI/InputForm';
 
+const spinnerColor = 'rgb(136,95,255)';
+const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
+const formReducer = (state, action) => {
+  if (action.type == FORM_INPUT_UPDATE) {
+    const updatedInputValues = {
+      ...state.inputValues,
+      [action.input]: action.value,
+    };
+    const updatedInputValidities = {
+      ...state.inputValidities,
+      [action.input]: action.isValid,
+    };
+    let updatedFormIsValid = true;
+    for (const key in updatedInputValidities) {
+      updatedFormIsValid = updatedFormIsValid && updatedInputValidities[key];
+    }
+    return {
+      inputValues: updatedInputValues,
+      inputValidities: updatedInputValidities,
+      formIsValid: updatedFormIsValid,
+    };
+  }
+  return state;
+};
+
 const AuthScreen = props => {
+  const [isSignup, setIsSignup] = useState(false);
+  const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const authHandler = async () => {
+    let action;
+    if (isSignup) {
+      action = authActions.singUp(
+        formState.inputValues.email,
+        formState.inputValues.password,
+      );
+    } else {
+      action = authActions.login(
+        formState.inputValues.email,
+        formState.inputValues.password,
+      );
+    }
+    setError(null);
+    setIsLoading(true);
+    try {
+      await dispatch(action);
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
+  };
+
+  const inputChangeHandler = useCallback(
+    (inputIdentifier, inputValue, inputValidity) => {
+      setError(null);
+      dispatchFormState({
+        type: FORM_INPUT_UPDATE,
+        value: inputValue,
+        isValid: inputValidity,
+        input: inputIdentifier,
+      });
+    },
+    [dispatchFormState],
+  );
+  const [formState, dispatchFormState] = useReducer(formReducer, {
+    inputValues: {
+      email: '',
+      password: '',
+    },
+    inputValidities: {
+      email: false,
+      password: false,
+    },
+    formIsValid: false,
+  });
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert('오류가 발생했습니다.', error, [{text: '네'}]);
+    }
+  });
+
   return (
-    <KeyboardAvoidingView style={{flex: 1}} keyboardVerticalOffset={50}>
+    <KeyboardAvoidingView style={{flex: 1}} keyboardVerticalOffset={1}>
       <HeaderBar.centerOnly centerTitle="AuthScreen" />
       <LinearGradient
         colors={['#ffedff', '#ffe3ff']}
@@ -29,7 +121,7 @@ const AuthScreen = props => {
               email
               autoCapitalize="none"
               errorText="올바른 이메일을 입력해주세요."
-              onInputChange={() => {}}
+              onInputChange={inputChangeHandler}
               initiallyValid={true}
               initialValue=""
             />
@@ -42,15 +134,27 @@ const AuthScreen = props => {
               minLength={5}
               autoCapitalize="none"
               errorText="올바른 비밀번호를 입력해주세요."
-              onInputChange={() => {}}
+              onInputChange={inputChangeHandler}
               initiallyValid={true}
               initialValue=""
             />
-            <LoginButton onPress={() => {}} activeOpacity={0.5}>
-              <ButtonText>Login</ButtonText>
-            </LoginButton>
-            <SignUpButton onPress={() => {}} activeOpacity={0.5}>
-              <ButtonText>Switch to Sign Up</ButtonText>
+            {isLoading ? (
+              <View style={{height: 35, marginTop: 10}}>
+                <ActivityIndicator size="small" color={spinnerColor} />
+              </View>
+            ) : (
+              <LoginButton onPress={authHandler} activeOpacity={0.5}>
+                <ButtonText>{isSignup ? 'Sign Up' : 'Login'}</ButtonText>
+              </LoginButton>
+            )}
+            <SignUpButton
+              onPress={() => {
+                setIsSignup(!isSignup);
+              }}
+              activeOpacity={0.5}>
+              <ButtonText>
+                Switch to {isSignup ? 'Login' : 'Sign Up'}
+              </ButtonText>
             </SignUpButton>
           </ScrollView>
         </AuthWrapper>
