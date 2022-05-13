@@ -45,9 +45,10 @@ export const setProducts = () => {
 };
 
 export const deleteProduct = productId => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     const response = await fetch(
-      `https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/products/${productId}.json/`,
+      `https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/products/${productId}.json?auth=${token}`,
       {
         method: 'DELETE',
       },
@@ -67,11 +68,12 @@ export const deleteProduct = productId => {
 // async, await 비동기처리를 위한 JS최근 문법으로 콜백을 사용한 것과 같음.
 
 export const addProduct = (title, description, imageUrl, price) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     // fetch ==> HTTP에 요청한 정보를 fetch라는 api를 통해 가져올 수 있음.
     const response = await fetch(
       //firebase에서 products라는 폴더가 생김.
-      `https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/products.json`,
+      `https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/products.json?auth=${token}`,
       {
         //method -> 전달 방식.
         method: 'POST',
@@ -102,10 +104,11 @@ export const addProduct = (title, description, imageUrl, price) => {
 };
 
 export const updateProduct = (id, title, description, imageUrl, price) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     //``은 동적 데이터를 주입할 수 있는 문자열! ''과 다름.
     const response = await fetch(
-      `https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/products/${id}.json/`,
+      `https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/products/${id}.json?auth=${token}`,
       {
         method: 'PATCH',
         headers: {'Content-Type': 'application/json'},

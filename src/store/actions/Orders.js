@@ -38,9 +38,10 @@ export const setOrders = () => {
 //주문화면에서는 카트에 담은 Item들과 총 금액이 필요하므로.
 export const addOrder = (cartItems, totalPrice) => {
   const date = new Date();
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     const response = await fetch(
-      'https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/orders/u1.json',
+      `https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/orders/u1.json?auth=${token}`,
       {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},

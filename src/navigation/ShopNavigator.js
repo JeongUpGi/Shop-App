@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {createDrawerNavigator, DrawerItem} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
+import {useSelector} from 'react-redux';
 
 import ProductsOverViewScreen from '../screens/shop/ProductsOverViewScreen';
 import ProductDetailScreen from '../screens/shop/ProductDetailSCreen';
@@ -13,10 +14,16 @@ import AuthScreen from '../screens/user/AuthScreen';
 const activeTintColor = '#885FFF';
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-const isLogged = false;
 
 const Products_AuthNavigator = props => {
-  return isLogged ? (
+  const auth = useSelector(state => state.auth);
+  return auth.token === null ? (
+    <Stack.Navigator
+      initialRouteName="auth"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="auth" component={AuthScreen} />
+    </Stack.Navigator>
+  ) : (
     <Stack.Navigator
       initialRouteName="productsOverView"
       screenOptions={{headerShown: false}}>
@@ -27,12 +34,6 @@ const Products_AuthNavigator = props => {
       <Stack.Screen name="productDetail" component={ProductDetailScreen} />
       <Stack.Screen name="userProducts" component={UserProductsScreen} />
       <Stack.Screen name="cart" component={CartScreen} />
-    </Stack.Navigator>
-  ) : (
-    <Stack.Navigator
-      initialRouteName="auth"
-      screenOptions={{headerShown: false}}>
-      <Stack.Screen name="auth" component={AuthScreen} />
     </Stack.Navigator>
   );
 };
