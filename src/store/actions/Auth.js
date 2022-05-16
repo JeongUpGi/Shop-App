@@ -1,6 +1,7 @@
 export const SIGNUP = 'SIGNUP';
 export const LOGIN = 'LOGIN';
 
+// API_KEY는 내 FireBase 프로젝트 웹 API 키를 의미.
 export const singUp = (email, password) => {
   return async dispatch => {
     const response = await fetch(

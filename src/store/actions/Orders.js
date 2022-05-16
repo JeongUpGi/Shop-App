@@ -4,10 +4,11 @@ export const ADD_ORDER = 'ADD_ORDER';
 export const SET_ORDERS = 'SET_ORDERS';
 
 export const setOrders = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     try {
       const response = await fetch(
-        'https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/orders/u1.json',
+        `https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/orders/${userId}.json`,
         //method의 default값은 GET (얻어오는 거)
       );
       if (!response.ok) {
@@ -40,8 +41,9 @@ export const addOrder = (cartItems, totalPrice) => {
   const date = new Date();
   return async (dispatch, getState) => {
     const token = getState().auth.token;
+    const userId = getState().auth.userId;
     const response = await fetch(
-      `https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/orders/u1.json?auth=${token}`,
+      `https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/orders/${userId}.json?auth=${token}`,
       {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},

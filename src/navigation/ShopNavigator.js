@@ -16,6 +16,7 @@ const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 const Products_AuthNavigator = props => {
+  // auth.token --> 최초 로그인 화면에서의 IdToken값을 의미.
   const auth = useSelector(state => state.auth);
   return auth.token === null ? (
     <Stack.Navigator

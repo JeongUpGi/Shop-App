@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import {View, TouchableOpacity, Alert, FlatList} from 'react-native';
+import {View, Text, TouchableOpacity, Alert, FlatList} from 'react-native';
 import styled from 'styled-components';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -32,6 +32,32 @@ const UserProductsScreen = props => {
   const editProductHandler = id => {
     props.navigation.navigate('editProduct', {productId: id});
   };
+
+  if (userProducts.length === 0) {
+    return (
+      <Container style={{flex: 1}}>
+        <HeaderBar.leftRightCenter
+          leadingLeftIcon={<Icons.menu />}
+          leadingLeftAction={() => {
+            props.navigation.toggleDrawer();
+          }}
+          centerTitle="User Products"
+          leadingRightIcon={<Icons.add />}
+          leadingRightAction={() => {
+            editProductHandler();
+          }}
+        />
+        <View
+          style={{
+            flex: 0.9,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text>당신의 상품이 존재하지 않습니다. 상품을 추가해주세요.</Text>
+        </View>
+      </Container>
+    );
+  }
 
   return (
     <Container>

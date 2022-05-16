@@ -7,7 +7,8 @@ export const SET_PRODUCTS = 'SET_PRODUCTS';
 
 //세팅
 export const setProducts = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     try {
       const response = await fetch(
         'https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/products.json',
@@ -24,7 +25,7 @@ export const setProducts = () => {
         loadedProducts.push(
           new Product(
             key,
-            'u1',
+            resData[key].ownerID,
             resData[key].title,
             resData[key].imageUrl,
             resData[key].description,
@@ -33,9 +34,11 @@ export const setProducts = () => {
         );
       }
       console.log(loadedProducts);
+      console.log(loadedProducts.filter(prod => prod.ownerID === userId));
       dispatch({
         type: SET_PRODUCTS,
         products: loadedProducts,
+        userProducts: loadedProducts.filter(prod => prod.ownerID === userId),
       });
     } catch (err) {
       console.log('에러 발생');
@@ -47,6 +50,7 @@ export const setProducts = () => {
 export const deleteProduct = productId => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
+    console.log(getState());
     const response = await fetch(
       `https://rn-complete-guide-2c5f0-default-rtdb.firebaseio.com/products/${productId}.json?auth=${token}`,
       {
@@ -70,6 +74,7 @@ export const deleteProduct = productId => {
 export const addProduct = (title, description, imageUrl, price) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
+    const userId = getState().auth.userId;
     // fetch ==> HTTP에 요청한 정보를 fetch라는 api를 통해 가져올 수 있음.
     const response = await fetch(
       //firebase에서 products라는 폴더가 생김.
@@ -85,6 +90,7 @@ export const addProduct = (title, description, imageUrl, price) => {
           description,
           imageUrl,
           price,
+          ownerID: userId,
         }),
       },
     );
@@ -95,10 +101,11 @@ export const addProduct = (title, description, imageUrl, price) => {
     dispatch({
       type: ADD_PRODUCT,
       id: resData.name,
-      title: title,
-      description: description,
-      imageUrl: imageUrl,
-      price: price,
+      title,
+      description,
+      imageUrl,
+      price,
+      ownerID: userId,
     });
   };
 };
@@ -128,10 +135,10 @@ export const updateProduct = (id, title, description, imageUrl, price) => {
     dispatch({
       type: UPDATE_PRODUCT,
       productId: id,
-      title: title,
-      description: description,
-      imageUrl: imageUrl,
-      price: price,
+      title,
+      description,
+      imageUrl,
+      price,
     });
   };
 };

@@ -5,9 +5,9 @@ import {ADD_PRODUCT} from '../actions/Products';
 import {UPDATE_PRODUCT} from '../actions/Products';
 
 const initialState = {
-  availableProducts: PRODUCTS,
+  availableProducts: [],
   //전체 상품들 ==> model폴더에서 정의한 상품들로 지정
-  userProducts: PRODUCTS.filter(prod => prod.ownerID === 'u1'),
+  userProducts: [],
   //사용자의 상품들 ==> model폴더에서 정의한 상품들의 유저 아이디로 지정
   //예시: userProducts는 예제로 어떤 상품 지정. 어떤 상품? -> 상품의 사용자 아이디가 u1인 상품.
 };
@@ -18,13 +18,13 @@ export default (state = initialState, action) => {
     case SET_PRODUCTS:
       return {
         availableProducts: action.products,
-        userProducts: action.products.filter(prod => prod.ownerID === 'u1'),
+        userProducts: action.userProducts,
       };
     //Product 추가
     case ADD_PRODUCT:
       const newProduct = new Product(
         action.id,
-        'u1',
+        action.ownerID,
         action.title,
         action.imageUrl,
         action.description,

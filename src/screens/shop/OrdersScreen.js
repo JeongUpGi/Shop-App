@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, ActivityIndicator, FlatList} from 'react-native';
+import {View, Text, ActivityIndicator, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
 import * as ordersActions from '../../store/actions/Orders';
@@ -30,6 +30,30 @@ const OrdersScreen = props => {
       <LoadingView>
         <ActivityIndicator size="large" color={spinnerColor} />
       </LoadingView>
+    );
+  }
+
+  if (orders.length === 0) {
+    return (
+      <Container style={{flex: 1}}>
+        <HeaderBar.leftCenter
+          leadingIcon={<Icons.menu />}
+          leadingAction={() => {
+            props.navigation.toggleDrawer();
+          }}
+          centerTitle="Your Orders"
+        />
+        <View
+          style={{
+            flex: 0.9,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text>
+            당신의 주문상품이 존재하지 않습니다. 주문상품을 추가해주세요.
+          </Text>
+        </View>
+      </Container>
     );
   }
 
