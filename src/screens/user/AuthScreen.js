@@ -41,10 +41,10 @@ const formReducer = (state, action) => {
 };
 
 const AuthScreen = props => {
+  const dispatch = useDispatch();
   const [isSignup, setIsSignup] = useState(false);
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
 
   const authHandler = async () => {
     let action;
@@ -63,6 +63,9 @@ const AuthScreen = props => {
     setIsLoading(true);
     try {
       await dispatch(action);
+      if (!isSignup) {
+        props.navigation.navigate('productsOverView');
+      }
     } catch (err) {
       setError(err.message);
     }
@@ -97,7 +100,7 @@ const AuthScreen = props => {
     if (error) {
       Alert.alert('오류가 발생했습니다.', error, [{text: '네'}]);
     }
-  });
+  }, [error]);
 
   return (
     <KeyboardAvoidingView style={{flex: 1}} keyboardVerticalOffset={1}>

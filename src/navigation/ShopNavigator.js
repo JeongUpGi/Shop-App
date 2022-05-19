@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createDrawerNavigator, DrawerItem} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ProductsOverViewScreen from '../screens/shop/ProductsOverViewScreen';
 import ProductDetailScreen from '../screens/shop/ProductDetailSCreen';
@@ -10,24 +11,19 @@ import OrdersScreen from '../screens/shop/OrdersScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
 import EditProductScreen from '../screens/user/EditProductScreen';
 import AuthScreen from '../screens/user/AuthScreen';
+import StartUpScreen from '../screens/StartUpScreen';
 
 const activeTintColor = '#885FFF';
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 const Products_AuthNavigator = props => {
-  // auth.token --> 최초 로그인 화면에서의 IdToken값을 의미.
-  const auth = useSelector(state => state.auth);
-  return auth.token === null ? (
+  return (
     <Stack.Navigator
-      initialRouteName="auth"
+      initialRouteName="startUp"
       screenOptions={{headerShown: false}}>
+      <Stack.Screen name="startUp" component={StartUpScreen} />
       <Stack.Screen name="auth" component={AuthScreen} />
-    </Stack.Navigator>
-  ) : (
-    <Stack.Navigator
-      initialRouteName="productsOverView"
-      screenOptions={{headerShown: false}}>
       <Stack.Screen
         name="productsOverView"
         component={ProductsOverViewScreen}
