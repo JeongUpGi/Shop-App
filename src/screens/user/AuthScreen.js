@@ -64,7 +64,7 @@ const AuthScreen = props => {
     try {
       await dispatch(action);
       if (!isSignup) {
-        props.navigation.navigate('productsOverView');
+        props.navigation.replace('productsOverView');
       }
     } catch (err) {
       setError(err.message);

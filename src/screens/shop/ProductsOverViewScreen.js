@@ -4,6 +4,8 @@ import {
   TouchableOpacity,
   Text,
   ActivityIndicator,
+  Alert,
+  BackHandler,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';

@@ -17,7 +17,7 @@ const StartUpScreen = props => {
       console.log('userData:' + userData);
 
       if (!userData) {
-        props.navigation.navigate('auth');
+        props.navigation.replace('auth');
         return;
       }
       const transformedData = JSON.parse(userData);
@@ -25,10 +25,10 @@ const StartUpScreen = props => {
       const expirationDate = new Date(expiryDate);
 
       if (expirationDate <= new Date() || !token || !userId) {
-        props.navigation.navigate('auth');
+        props.navigation.replace('auth');
         return;
       }
-      props.navigation.navigate('productsOverView');
+      props.navigation.replace('productsOverView');
       dispatch(authActions.authenticate(userId, token));
     };
     tryLogin();

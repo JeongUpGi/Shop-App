@@ -23,8 +23,13 @@ const Products_AuthNavigator = props => {
       initialRouteName="startUp"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="startUp" component={StartUpScreen} />
-      <Stack.Screen name="auth" component={AuthScreen} />
       <Stack.Screen
+        options={{gestureEnabled: false}} // 뒤로가는 기능 방지_IOS
+        name="auth"
+        component={AuthScreen}
+      />
+      <Stack.Screen
+        options={{gestureEnabled: false}} // 뒤로가는 기능 방지_IOS
         name="productsOverView"
         component={ProductsOverViewScreen}
       />
