@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const SIGNUP = 'SIGNUP';
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
 export const AUTHENTICATE = 'AUTHENTICATE';
 
 // 로그인한 아이디가 유효한지 판단하기 위한 action
@@ -96,6 +97,10 @@ export const login = (email, password) => {
     );
     saveDataToStorage(resData.idToken, resData.localId, expirationDate);
   };
+};
+
+export const logout = () => {
+  return {type: LOGOUT};
 };
 
 const saveDataToStorage = (token, userId, expirationDate) => {

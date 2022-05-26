@@ -1,4 +1,4 @@
-import {AUTHENTICATE, LOGIN, SIGNUP} from '../actions/Auth';
+import {AUTHENTICATE, LOGIN, LOGOUT, SIGNUP} from '../actions/Auth';
 
 const initialState = {
   token: null,
@@ -19,6 +19,13 @@ export default (state = initialState, action) => {
         token: action.token,
         userId: action.userId,
       };
+    // 로그아웃을 위한 action
+    case LOGOUT: {
+      console.log(initialState);
+      return {
+        initialState,
+      };
+    }
     // 회원가입을 위한 action
     case SIGNUP:
       return {
