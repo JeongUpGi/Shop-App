@@ -1,5 +1,4 @@
-import React from 'react';
-import {SafeAreaView, View, Text} from 'react-native';
+import React, {useEffect, useRef} from 'react';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -7,6 +6,7 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
+import {CommonActions} from '@react-navigation/native';
 import styled from 'styled-components';
 import {useDispatch} from 'react-redux';
 
@@ -80,7 +80,7 @@ const CustomDrawerContent = props => {
           onPress={() => {
             dispatch(authActions.logout());
             //상품 화면이 아닌 로그인 화면으로 이동해야함. (token삭제 과정 필요)
-            props.navigation.navigate('Products');
+            dispatch(CommonActions.navigate('Products'));
           }}>
           <ButtonTitle>Logout</ButtonTitle>
         </LogoutButton>

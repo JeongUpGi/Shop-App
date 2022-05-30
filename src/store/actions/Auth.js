@@ -5,9 +5,14 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const AUTHENTICATE = 'AUTHENTICATE';
 
+let timer;
+
 // 로그인한 아이디가 유효한지 판단하기 위한 action
-export const authenticate = (userId, token) => {
-  return {type: AUTHENTICATE, userId: userId, token: token};
+export const authenticate = (userId, token, expiryTime) => {
+  return dispatch => {
+    dispatch(setLogoutTimer(expiryTime));
+    dispatch({type: AUTHENTICATE, userId: userId, token: token});
+  };
 };
 
 // API_KEY는 내 FireBase 프로젝트 웹 API 키를 의미.
@@ -87,11 +92,13 @@ export const login = (email, password) => {
 
     // 로그인 할 때 loginAction을 하는게 아니라 authenticate를 하면서 자동로그인 검증.
     // loginAction을 하면 또 요청을 하게 되고 검증하려는 이메일, userId가 달라질수 있기에..
-    dispatch({
-      type: LOGIN,
-      token: resData.idToken,
-      userId: resData.localId,
-    });
+    dispatch(
+      authenticate(
+        resData.localId,
+        resData.idToken,
+        parseInt(resData.expiresIn) * 1000,
+      ),
+    );
     const expirationDate = new Date(
       new Date().getTime() + parseInt(resData.expiresIn) * 1000,
     );
@@ -100,7 +107,23 @@ export const login = (email, password) => {
 };
 
 export const logout = () => {
+  clearLogoutTimer();
+  AsyncStorage.removeItem('userData');
   return {type: LOGOUT};
+};
+
+const clearLogoutTimer = () => {
+  if (timer) {
+    clearTimeout(timer);
+  }
+};
+
+const setLogoutTimer = expirationTime => {
+  return dispatch => {
+    timer = setTimeout(() => {
+      dispatch(logout());
+    }, expirationTime);
+  };
 };
 
 const saveDataToStorage = (token, userId, expirationDate) => {

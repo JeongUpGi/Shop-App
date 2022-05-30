@@ -28,8 +28,11 @@ const StartUpScreen = props => {
         props.navigation.replace('auth');
         return;
       }
+
+      const expirationTime = expirationDate.getTime() - new Date().getTime();
+
       props.navigation.replace('productsOverView');
-      dispatch(authActions.authenticate(userId, token));
+      dispatch(authActions.authenticate(userId, token, expirationTime));
     };
     tryLogin();
   }, [dispatch]);

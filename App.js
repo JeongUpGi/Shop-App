@@ -40,6 +40,7 @@ import cartReducer from './src/store/reducers/Cart';
 import ordersReducer from './src/store/reducers/Orders';
 import authReducer from './src/store/reducers/Auth';
 import {ShopNavigator} from './src/navigation/ShopNavigator';
+import Navigator from './src/navigation/Navigator';
 import ReduxThunk from 'redux-thunk';
 
 LogBox.ignoreLogs([
