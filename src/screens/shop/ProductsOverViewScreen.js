@@ -162,7 +162,6 @@ const AlertView = styled.View`
 `;
 const Container = styled.View`
   flex: 1;
-  margin-bottom: 50px;
 `;
 const ButtonWrapper = styled.View`
   flex-direction: row;
