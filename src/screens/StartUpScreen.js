@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, ActivityIndicator} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as authActions from '../store/actions/Auth';
@@ -15,10 +15,9 @@ const StartUpScreen = props => {
     const tryLogin = async () => {
       const userData = await AsyncStorage.getItem('userData');
 
-      console.log('userData(StartUpScreen):' + userData);
+      console.log('userData:' + userData);
 
       if (!userData) {
-        //userData가 없다면(비로그인 상태)
         props.navigation.replace('auth');
         return;
       }

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, from 'react';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -6,9 +6,8 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
-import {CommonActions} from '@react-navigation/native';
 import styled from 'styled-components';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import * as authActions from '../store/actions/Auth';
 import ProductsOverViewScreen from '../screens/shop/ProductsOverViewScreen';
