@@ -21,7 +21,6 @@ export default (state = initialState, action) => {
       };
     // 로그아웃을 위한 action
     case LOGOUT: {
-      console.log(initialState);
       return {
         initialState,
       };

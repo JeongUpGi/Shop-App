@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -8,7 +8,7 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import {CommonActions} from '@react-navigation/native';
 import styled from 'styled-components';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import * as authActions from '../store/actions/Auth';
 import ProductsOverViewScreen from '../screens/shop/ProductsOverViewScreen';
@@ -78,9 +78,12 @@ const CustomDrawerContent = props => {
         <LogoutButton
           activeOpacity={0.5}
           onPress={() => {
+            //상품 화면이 아닌 로그인 화면으로 이동해야함.
             dispatch(authActions.logout());
-            //상품 화면이 아닌 로그인 화면으로 이동해야함. (token삭제 과정 필요)
-            dispatch(CommonActions.navigate('Products'));
+            props.navigation.jumpTo('Products', {
+              screen: 'startUp',
+            });
+            props.navigation.closeDrawer();
           }}>
           <ButtonTitle>Logout</ButtonTitle>
         </LogoutButton>

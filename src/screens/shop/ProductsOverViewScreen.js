@@ -27,8 +27,8 @@ const ProductsOverViewScreen = props => {
   //useSelector로 store 폴더 reducers에 저장한 상품들을 가져옴. -- redux를 사용하기 위함.
   const dispatch = useDispatch();
   const isFocused = useIsFocused(); // navigation간의 화면 호출에 있어 재호출이 안됨. -> useIsFocused()로 해결.
-  //useIsFocused()는 화면의 초첨을 해제할 때 구성 요소가 재렌더링 될 수 있도록 함.
 
+  //useIsFocused()는 화면의 초첨을 해제할 때 구성 요소가 재렌더링 될 수 있도록 함.
   const loadProducts = useCallback(async () => {
     if (isFocused) {
       setError(null);
@@ -85,7 +85,7 @@ const ProductsOverViewScreen = props => {
         <HeaderBar.leftRightCenter
           leadingLeftIcon={<Icons.menu />}
           leadingLeftAction={() => {
-            props.navigation.toggleDrawer();
+            props.navigation.closeDrawer();
           }}
           centerTitle="All Products"
           leadingRightIcon={<Icons.cart />}
