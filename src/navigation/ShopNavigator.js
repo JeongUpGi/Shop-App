@@ -1,4 +1,4 @@
-import React, from 'react';
+import React from 'react';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -81,6 +81,7 @@ const CustomDrawerContent = props => {
             dispatch(authActions.logout());
             props.navigation.jumpTo('Products', {
               screen: 'startUp',
+              initial: true,
             });
             props.navigation.closeDrawer();
           }}>
