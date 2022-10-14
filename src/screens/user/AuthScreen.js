@@ -115,7 +115,8 @@ const AuthScreen = props => {
           justifyContent: 'center',
         }}>
         <AuthWrapper>
-          <ScrollView>
+          <ScrollView
+            contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
             <InputForm
               id="email"
               label="E-Mail"

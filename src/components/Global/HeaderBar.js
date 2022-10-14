@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
+import {Platform, StatusBar} from 'react-native';
+
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 import styled from 'styled-components';
+
+const StatusBarHeight =
+  Platform.OS === 'ios' ? getStatusBarHeight(true) : StatusBar.currentHeight;
 
 class LeftRightCenter extends Component {
   render() {
@@ -115,7 +121,7 @@ export default HeaderBar = {
 const HeaderContainer = styled.View`
   flex-direction: row;
   align-items: center;
-  height: 56px;
+  height: ${StatusBarHeight + 50}px;
   background-color: ${props => props.theme.colors.mainColor};
   justify-content: space-between;
   padding-horizontal: 16px;
